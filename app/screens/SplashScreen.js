@@ -13,11 +13,11 @@ export class SplashScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.iconContainer}>
-            <Image style={styles.icon} source={require('../assets/images/Sleeping.png')} />
+            <Image style={styles.icon} source={require('../assets/images/logo.png')} />
         </View>
-        <View style={styles.brandContainer}>
-            <Text style={styles.brandText}>Shayarana Jokes</Text>
-        </View>
+        {/* <View style={styles.brandContainer}>
+            <Text style={styles.brandText}>Mach Mach</Text>
+        </View> */}
       </View>
     );
   }
@@ -42,8 +42,8 @@ export const styles = StyleSheet.create({
           alignItems: "center",
       },
       icon:{
-          width: 100,
-          height: 100
+          width: 256,
+          height: 256
       },
       brandText: {
           'fontSize': 18,
