@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import Search from './app/screens/Search';
+import BottomNavigation from './app/navigation/BottomNavigation';
 
 const App = () => {
   return (
     <View style={styles.container}>
-      <Search />
+      <BottomNavigation />
     </View>
   );
 };
