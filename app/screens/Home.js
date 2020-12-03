@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from "react-native";
+import Feed from '../components/Feed'
 
 export class Home extends Component {
   constructor(props) {
@@ -10,11 +11,25 @@ export class Home extends Component {
 
   render() {
     return (
-      <View>
-        <Text> Home </Text>
-      </View>
+      <SafeAreaView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={true}>
+         <Feed />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFF"
+  },
+  text: {
+    fontFamily: "HelveticaNeue",
+    color: "#52575D"
+  }
+});
+
 
 export default Home;
