@@ -67,14 +67,16 @@ function MyTabs() {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#3e2465"
+      activeColor="rgb(236,35,118)"
       inactiveColor="#cbcbcb"
-      labelStyle={{ fontSize: 12 }}
-      barStyle={{ backgroundColor: '#fff', paddingBottom: 20 }}
+      labelStyle={{ fontSize: 10 }}
+      barStyle={{ backgroundColor: '#ffffff', paddingBottom: 10, paddingTop: 10, }}
       style={{ backgroundColor: 'pink' }}
       shifting={true}
       swipeEnabled={true}
+      cardShadowEnabled={true}
       sceneAnimationEnabled={false}
+      cardOverlayEnabled={false}
     >
       <Tab.Screen
         name="Home"
@@ -97,15 +99,15 @@ function MyTabs() {
         }}
       />
       <Tab.Screen
-      name="Add"
-      component={Add}
-      options={{
-        tabBarLabel: 'Add',
-        tabBarIcon: ({ color }) => (
-          <FeatherIcon name="plus-circle" color={color} size={24} />
-        ),
-      }}
-    />
+        name="Add"
+        component={Add}
+        options={{
+          tabBarLabel: 'Add',
+          tabBarIcon: ({ color }) => (
+            <FeatherIcon name="plus-circle" color={color} size={24} />
+          ),
+        }}
+      />
       <Tab.Screen
         name="Categories"
         component={Categories}

@@ -15,7 +15,7 @@ export class Search extends Component {
       this.startHeaderHeight = 100 + StatusBar.currentHeight
     }
   }
-  
+
 
   render() {
     return (
@@ -29,9 +29,10 @@ export class Search extends Component {
           }}>
             <View style={{
               flexDirection: 'row',
-              padding: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
               backgroundColor: 'white',
-              marginHorizontal: 20,
+              marginHorizontal: 15,
               shadowOffset: { width: 0, height: 0 },
               shadowColor: 'black',
               shadowOpacity: 0.2,
@@ -39,7 +40,7 @@ export class Search extends Component {
               marginTop: Platform.OS == 'android' ? 20 : null,
               marginBottom: Platform.OS == 'android' ? 20 : null
             }}>
-              <FeatherIcon name="search" size={24} style={{ marginRight: 10, textAlignVertical: 'center'}} />
+              <FeatherIcon name="search" size={20} style={{ marginRight: 10, textAlignVertical: 'center' }} />
               <TextInput
                 underlineColorAndroid="transparent"
                 placeholder="Search something..."

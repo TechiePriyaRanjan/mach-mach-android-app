@@ -1,8 +1,14 @@
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from "react-native";
-import { Button, Snackbar } from 'react-native-paper';
+import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Button } from 'react-native-paper';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+// import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Colors } from '../config';
+import LikedPost from './LikedPost';
+import MyPost from './MyPost';
 
+const Tab = createMaterialTopTabNavigator();
 export class Profile extends Component {
   constructor(props) {
     super(props);
@@ -11,90 +17,62 @@ export class Profile extends Component {
     };
   }
 
-  // onToggleSnackBar = () => setVisible(!visible);
-  // onDismissSnackBar = () => setVisible(false);
-
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.titleBar}>
-            <FeatherIcon name="arrow-left" size={24} color="#52575D"></FeatherIcon>
-            <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-          </View>
+        <View style={styles.titleBar}>
+          <FeatherIcon name="arrow-left" size={24} color="#52575D"></FeatherIcon>
+          <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+        </View>
 
-          <View style={styles.imageWrapper}>
-            <View style={styles.profileImage}>
-              <Image source={require("../assets/images/profile-pic.jpg")} style={styles.image} resizeMode="center"></Image>
-            </View>
-            {/* <View style={styles.dm}>
-              <FeatherIcon name="message-circle" size={18} color="#DFD8C8"></FeatherIcon>
-            </View> */}
-            {/* <View style={styles.active}></View> */}
-            {/* <View style={styles.add}>
-              <FeatherIcon name="plus" size={48} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></FeatherIcon>
-            </View> */}
+        <View style={styles.imageWrapper}>
+          <View style={styles.profileImage}>
+            <Image source={require("../assets/images/profile-pic.jpg")} style={styles.image}></Image>
           </View>
 
           <View style={styles.infoContainer}>
-            <Text style={[styles.text, { fontWeight: "200", fontSize: 36 }]}>Neha Sharma</Text>
-            <Button>{this.state.visible ? 'Unfollow' : 'Follow'}</Button>
+            <Text style={[styles.text, { fontWeight: "200", fontSize: 24, marginBottom: 10 }]}>Neha Sharma</Text>
+            {/* <Button mode="contained" icon={require('"../icons/user-plus.svg"')}> */}
+            <Button mode="contained" color={Colors.ThemeColors.Primary}>
+              {this.state.visible ? 'Unfollow' : 'Follow'}
+            </Button>
           </View>
+        </View>
 
-          <View style={styles.statsContainer}>
-            <View style={styles.statsBox}>
-              <Text style={[styles.text, { fontSize: 24 }]}>483</Text>
-              <Text style={[styles.text, styles.subText]}>Likes</Text>
-            </View>
-            <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-              <Text style={[styles.text, { fontSize: 24 }]}>444</Text>
-              <Text style={[styles.text, styles.subText]}>Followers</Text>
-            </View>
-            <View style={styles.statsBox}>
-              <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
-              <Text style={[styles.text, styles.subText]}>Following</Text>
-            </View>
+        <View style={styles.statsContainer}>
+          <View style={styles.statsBox}>
+            <Text style={[styles.text, { fontSize: 24 }]}>483</Text>
+            <Text style={[styles.text, styles.subText]}>Likes</Text>
           </View>
-
-          <View style={{ marginTop: 32 }}>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-              <View style={styles.mediaImageContainer}>
-                <Image source={require("../assets/images/media1.jpg")} style={styles.image} resizeMode="cover"></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image source={require("../assets/images/media2.jpg")} style={styles.image} resizeMode="cover"></Image>
-              </View>
-              <View style={styles.mediaImageContainer}>
-                <Image source={require("../assets/images/media3.jpg")} style={styles.image} resizeMode="cover"></Image>
-              </View>
-            </ScrollView>
-            {/* <View style={styles.mediaCount}>
-              <Text style={[styles.text, { fontSize: 24, color: "#DFD8C8", fontWeight: "300" }]}>70</Text>
-              <Text style={[styles.text, { fontSize: 12, color: "#DFD8C8", textTransform: "uppercase" }]}>Media</Text>
-            </View> */}
+          <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+            <Text style={[styles.text, { fontSize: 24 }]}>444</Text>
+            <Text style={[styles.text, styles.subText]}>Followers</Text>
           </View>
-          {/* <Text style={[styles.subText, styles.recent]}>Recent Activity</Text>
-          <View style={{ alignItems: "center" }}>
-            <View style={styles.recentItem}>
-              <View style={styles.activityIndicator}></View>
-              <View style={{ width: 250 }}>
-                <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                  Started following <Text style={{ fontWeight: "400" }}>Jake Challeahe</Text> and <Text style={{ fontWeight: "400" }}>Luis Poteer</Text>
-                </Text>
-              </View>
-            </View>
+          <View style={styles.statsBox}>
+            <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
+            <Text style={[styles.text, styles.subText]}>Following</Text>
+          </View>
+        </View>
 
-            <View style={styles.recentItem}>
-              <View style={styles.activityIndicator}></View>
-              <View style={{ width: 250 }}>
-                <Text style={[styles.text, { color: "#41444B", fontWeight: "300" }]}>
-                  Started following <Text style={{ fontWeight: "400" }}>Luke Harper</Text>
-                </Text>
-              </View>
-            </View>
-          </View> */}
-        </ScrollView>
-      </SafeAreaView>
+        <Tab.Navigator
+          tabBarOptions={{
+            // activeTintColor: '#e91e63',
+            labelStyle: {
+              // fontSize: 12,
+              textTransform: 'capitalize'
+            },
+            indicatorStyle: {
+              backgroundColor: Colors.ThemeColors.Primary,
+              // height: 0
+            },
+          }}
+          style={{ paddingTop: 20 }}
+        >
+          <Tab.Screen name="My Post" component={MyPost} />
+          <Tab.Screen name="Liked Post" component={LikedPost} />
+        </Tab.Navigator>
+
+      </SafeAreaView >
     );
   }
 }
@@ -126,13 +104,15 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   profileImage: {
-    width: 180,
-    height: 180,
-    borderRadius: 125,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
     overflow: "hidden"
   },
   imageWrapper: {
-    alignSelf: 'center',
+    display: 'flex',
+    margin: 20,
+    flexDirection: 'row'
     // marginTop: 32,
     // width: 250,
     // height: 250,
@@ -173,14 +153,16 @@ const styles = StyleSheet.create({
   //   justifyContent: "center"
   // },
   infoContainer: {
-    alignSelf: "center",
-    alignItems: "center",
-    marginTop: 16
+    padding: 10,
+    marginLeft: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start'
   },
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 32
+    marginTop: 10
   },
   statsBox: {
     alignItems: "center",

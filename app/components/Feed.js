@@ -3,6 +3,7 @@ import { View, StyleSheet, SafeAreaView, TextInput, ScrollView, StatusBar } from
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import Avatar from './Avatar';
 import styled from 'styled-components/native';
+import Share from 'react-native-share';
 
 const Container = styled.View`
 	flex: 1;
@@ -88,183 +89,195 @@ const BottomDivider = styled.View`
 `
 
 export class Feed extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+		};
+	}
+	handleShare = () => {
+		const myCustomShare = async () => {
+			const shareOptions = {
+				message: 'This is test message',
+			}
+			try {
+				const shareResponse = await Share.open(shareOptions);
+				console.log(JSON.stringify(shareResponse));
+			} catch (error) {
+				console.log('Error =>', error);
+			}
+		};
+	}
+	render() {
+		return (
+			<SafeAreaView style={{ flex: 1 }}>
+				<ScrollView showsVerticalScrollIndicator={true}>
+					<Container>
+						<Header>
+							<Row>
+								<Avatar source={require("../assets/images/profile-pic.jpg")} />
+								<View style={{ paddingLeft: 10 }}>
+									<User>Neha Sharma</User>
+									<Row>
+										<Time>Nov 17, 2020 at 2:05 PM</Time>
+										{/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
+										{/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
+									</Row>
+									<Row><Text style={{ color: 'blue' }}>#FunnyJokes</Text></Row>
+								</View>
+							</Row>
+							<FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+						</Header>
 
-    render() {
-        return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <ScrollView showsVerticalScrollIndicator={true}>
-                    <Container>
-                        <Header>
-                            <Row>
-                                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                                <View style={{ paddingLeft: 10 }}>
-                                    <User>Neha Sharma</User>
-                                    <Row>
-                                        <Time>Nov 17, 2020 at 2:05 PM</Time>
-                                        {/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
-                                        {/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
-                                    </Row>
-                                    <Row><Text style={{ color: 'blue' }}>#FunnyJokes</Text></Row>
-                                </View>
-                            </Row>
-                            <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-                        </Header>
+						<Photo source={require("../assets/images/media2.jpg")} />
+						<Footer>
+							<Separator />
+							<FooterMenu>
+								<Button>
+									<FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>23 Likes</Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>12 </Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>Share</Text>
+								</Button>
+							</FooterMenu>
+						</Footer>
+						<BottomDivider />
+					</Container>
 
-                        <Photo source={require("../assets/images/media2.jpg")} />
-                        <Footer>
-                            <Separator />
-                            <FooterMenu>
-                                <Button>
-                                    <FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>23 Likes</Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>12 </Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>Share</Text>
-                                </Button>
-                            </FooterMenu>
-                        </Footer>
-                        <BottomDivider />
-                    </Container>
+					<Container>
+						<Header>
+							<Row>
+								<Avatar source={require("../assets/images/profile-pic.jpg")} />
+								<View style={{ paddingLeft: 10 }}>
+									<User>Neha Sharma</User>
+									<Row>
+										<Time>Nov 17, 2020 at 2:05 PM</Time>
+									</Row>
+									<Row><Text style={{ color: 'blue' }}>#Programming</Text></Row>
+								</View>
+							</Row>
+							<FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+						</Header>
 
-                    <Container>
-                        <Header>
-                            <Row>
-                                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                                <View style={{ paddingLeft: 10 }}>
-                                    <User>Neha Sharma</User>
-                                    <Row>
-                                        <Time>Nov 17, 2020 at 2:05 PM</Time>
-                                    </Row>
-                                    <Row><Text style={{ color: 'blue' }}>#Programming</Text></Row>
-                                </View>
-                            </Row>
-                            <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-                        </Header>
+						<Post>
+							JavaScript is the world's most popular programming language.
 
-                        <Post>
-                            JavaScript is the world's most popular programming language.
+							JavaScript is the programming language of the Web.
 
-                            JavaScript is the programming language of the Web.
+							JavaScript is easy to learn.
 
-                            JavaScript is easy to learn.
-
-                            This tutorial will teach you JavaScript from basic to advanced.
+							This tutorial will teach you JavaScript from basic to advanced.
 				        </Post>
 
-                        <Footer>
-                            <Separator />
-                            <FooterMenu>
-                                <Button>
-                                    <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
-                                    <Text>255 Likes</Text>
-                                </Button>
-                                {/* <Button>
-                                    <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>12 </Text>
-                                </Button> */}
-                                <Button>
-                                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>Share</Text>
-                                </Button>
-                            </FooterMenu>
-                        </Footer>
-                        <BottomDivider />
-                    </Container>
+						<Footer>
+							<Separator />
+							<FooterMenu>
+								<Button>
+									<FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
+									<Text>255 Likes</Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>Copy</Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>Share</Text>
+								</Button>
+							</FooterMenu>
+						</Footer>
+						<BottomDivider />
+					</Container>
 
-                    <Container>
-                        <Header>
-                            <Row>
-                                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                                <View style={{ paddingLeft: 10 }}>
-                                    <User>Neha Sharma</User>
-                                    <Row>
-                                        <Time>Nov 17, 2020 at 2:05 PM</Time>
-                                        {/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
-                                        {/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
-                                    </Row>
-                                    <Row><Text style={{ color: 'blue' }}>#Real Estate</Text></Row>
-                                </View>
-                            </Row>
-                            <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-                        </Header>
+					<Container>
+						<Header>
+							<Row>
+								<Avatar source={require("../assets/images/profile-pic.jpg")} />
+								<View style={{ paddingLeft: 10 }}>
+									<User>Neha Sharma</User>
+									<Row>
+										<Time>Nov 17, 2020 at 2:05 PM</Time>
+										{/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
+										{/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
+									</Row>
+									<Row><Text style={{ color: 'blue' }}>#Real Estate</Text></Row>
+								</View>
+							</Row>
+							<FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+						</Header>
 
-                        <Photo source={require("../assets/images/media1.jpg")} />
-                        <Footer>
-                            <Separator />
-                            <FooterMenu>
-                                <Button>
-                                    <FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>323 Likes</Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>132 </Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>Share</Text>
-                                </Button>
-                            </FooterMenu>
-                        </Footer>
-                        <BottomDivider />
-                    </Container>
+						<Photo source={require("../assets/images/media1.jpg")} />
+						<Footer>
+							<Separator />
+							<FooterMenu>
+								<Button>
+									<FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>323 Likes</Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>132 </Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>Share</Text>
+								</Button>
+							</FooterMenu>
+						</Footer>
+						<BottomDivider />
+					</Container>
 
-                    <Container>
-                        <Header>
-                            <Row>
-                                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                                <View style={{ paddingLeft: 10 }}>
-                                    <User>Neha Sharma</User>
-                                    <Row>
-                                        <Time>Nov 17, 2020 at 2:05 PM</Time>
-                                        {/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
-                                        {/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
-                                    </Row>
-                                    <Row><Text style={{ color: 'blue' }}>#Nature</Text></Row>
-                                </View>
-                            </Row>
-                            <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-                        </Header>
+					<Container>
+						<Header>
+							<Row>
+								<Avatar source={require("../assets/images/profile-pic.jpg")} />
+								<View style={{ paddingLeft: 10 }}>
+									<User>Neha Sharma</User>
+									<Row>
+										<Time>Nov 17, 2020 at 2:05 PM</Time>
+										{/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
+										{/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
+									</Row>
+									<Row><Text style={{ color: 'blue' }}>#Nature</Text></Row>
+								</View>
+							</Row>
+							<FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+						</Header>
 
-                        <Post>
-                            Crie na prática uma aplicação utilizando NextJS,
-                            ReactJS, React Native e Strap Api.
+						<Post>
+							Crie na prática uma aplicação utilizando NextJS,
+							ReactJS, React Native e Strap Api.
 				        </Post>
-                        <Photo source={require("../assets/images/media3.jpg")} />
-                        <Footer>
-                            <Separator />
-                            <FooterMenu>
-                                <Button>
-                                    <FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>23 Likes</Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>12 </Text>
-                                </Button>
-                                <Button>
-                                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                                    <Text>Share</Text>
-                                </Button>
-                            </FooterMenu>
-                        </Footer>
-                        <BottomDivider />
-                    </Container>
+						<Photo source={require("../assets/images/media3.jpg")} />
+						<Footer>
+							<Separator />
+							<FooterMenu>
+								<Button>
+									<FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>23 Likes</Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>12 </Text>
+								</Button>
+								<Button>
+									<FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+									<Text>Share</Text>
+								</Button>
+							</FooterMenu>
+						</Footer>
+						<BottomDivider />
+					</Container>
 
-                </ScrollView>
-            </SafeAreaView>
-        );
-    }
+				</ScrollView>
+			</SafeAreaView>
+		);
+	}
 }
 
 export default Feed;
