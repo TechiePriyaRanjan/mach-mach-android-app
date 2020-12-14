@@ -5,17 +5,32 @@ import { Colors } from '../config';
 import { HeaderHeight } from "../config/utils";
 import { Images } from '../services';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
+})
 const { width, height } = Dimensions.get('screen');
 // const thumbMeasure = (width - 48 - 32) / 3;
 const thumbMeasure = (width - 48) / 2;
+
 export class Categories extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      categoriesData: []
     };
   }
-
+  componentDidMount() {
+    this.getCategoriesData()
+  }
+  async getCategoriesData() {
+    let response = await axios.get('https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
+    this.setState({ categoriesData: response.data.data });
+  }
   render() {
+    let categories = this.state.categoriesData;
+    // console.log('Rajat', categories);
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -46,11 +61,15 @@ export class Categories extends Component {
               </Block> */}
 
                 <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                  {Images.Viewed.map((img, imgIndex) => (
+                  {/* {categories.map((val, index) => {
+                    console.log(val.category_id)
+                    return (<View><Text>Hi</Text></View>)
+                  })} */}
+                  {categories.map((key, imgIndex) => (
                     <ImageBackground
-                      source={{ uri: img }}
+                      source={{ uri: key.category_image }}
                       style={styles.thumb}
-                      key={`viewed-${img}`}
+                      key={key.category_id}
                       imageStyle={styles.profileImage}
                     >
                       <Block flex style={styles.CategoriesTitle}>
@@ -60,13 +79,14 @@ export class Categories extends Component {
                             color: Colors.ThemeColors.White,
                             fontSize: 20,
                             fontWeight: 'bold'
-                          }}>Programming</Text>
+                          }}>{key.category_name}</Text>
                       </Block>
                     </ImageBackground>
                   ))}
                 </Block>
               </Block>
             </ScrollView>
+            {/* <Text>{categories}</Text> */}
           </View>
         </View>
       </SafeAreaView>
@@ -98,7 +118,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: 'center',
     width: thumbMeasure,
-    height: thumbMeasure
+    height: 120
   },
   CategoriesTitle: {
     display: 'flex',
