@@ -1,16 +1,20 @@
 import React, { memo } from 'react';
 import Background from '../components/Background';
-import Button from '../components/Button';
-import Header from '../components/Header';
 import Logo from '../components/Logo';
+import Header from '../components/Header';
+import Button from '../components/Button';
+import Paragraph from '../components/Paragraph';
 
-const SplashScreen = ({ navigation }) => (
+const HomeScreen = ({ navigation }) => (
   <Background>
     <Logo />
     <Header>Mach Mach</Header>
 
+    {/* <Paragraph>
+      Pics, Shayari &amp; Jokes. All in one place!!
+    </Paragraph> */}
     <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
-      Login App
+      Login
     </Button>
     <Button
       mode="outlined"
@@ -21,4 +25,4 @@ const SplashScreen = ({ navigation }) => (
   </Background>
 );
 
-export default memo(SplashScreen);
+export default memo(HomeScreen);

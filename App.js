@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import Search from './app/screens/Search';
-import BottomNavigation from './app/navigation/BottomNavigation';
+// import BottomNavigation from './app/navigation/BottomNavigation';
+import App from './app/screens';
 
-const App = () => {
+const Main = () => {
   return (
     <View style={styles.container}>
-      <BottomNavigation />
+      <App />
     </View>
   );
 };
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Main;
