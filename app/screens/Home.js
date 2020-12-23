@@ -21,10 +21,52 @@ export class Home extends Component {
   }
 
   render() {
+    let allPosts = this.state.postData;
+
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Container>
+
+          {allPosts.map((key, index) => (
+            <Container>
+              <Header>
+                <Row>
+                  <Avatar source={require("../assets/images/profile-pic.jpg")} />
+                  <View style={{ paddingLeft: 10 }}>
+                    <User>Neha Sharma</User>
+                    <Row>
+                      <Time>Nov 17, 2020 at 2:05 PM</Time>
+                    </Row>
+                    <Row><Text style={{ color: 'blue' }}>#{key.category}</Text></Row>
+                  </View>
+                </Row>
+                <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+              </Header>
+
+              <Post>{key.post}</Post>
+
+              <Footer>
+                <Separator />
+                <FooterMenu>
+                  <Button>
+                    <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
+                    <Text>{key.total_like} Likes</Text>
+                  </Button>
+                  <Button>
+                    <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                    <Text>Copy</Text>
+                  </Button>
+                  <Button>
+                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                    <Text>Share</Text>
+                  </Button>
+                </FooterMenu>
+              </Footer>
+              <BottomDivider />
+            </Container>
+          ))}
+
+          {/* <Container>
             <Header>
               <Row>
                 <Avatar source={require("../assets/images/profile-pic.jpg")} />
@@ -32,8 +74,6 @@ export class Home extends Component {
                   <User>Neha Sharma</User>
                   <Row>
                     <Time>Nov 17, 2020 at 2:05 PM</Time>
-                    {/* <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon> */}
-                    {/* <FeatherIcon name="globe" size={24} color="#52575D"></FeatherIcon> */}
                   </Row>
                   <Row><Text style={{ color: 'blue' }}>#FunnyJokes</Text></Row>
                 </View>
@@ -60,53 +100,7 @@ export class Home extends Component {
               </FooterMenu>
             </Footer>
             <BottomDivider />
-          </Container>
-
-          <Container>
-            <Header>
-              <Row>
-                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                <View style={{ paddingLeft: 10 }}>
-                  <User>Neha Sharma</User>
-                  <Row>
-                    <Time>Nov 17, 2020 at 2:05 PM</Time>
-                  </Row>
-                  <Row><Text style={{ color: 'blue' }}>#Programming</Text></Row>
-                </View>
-              </Row>
-              <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-            </Header>
-
-            <Post>
-              JavaScript is the world's most popular programming language.
-
-              JavaScript is the programming language of the Web.
-
-              JavaScript is easy to learn.
-
-              This tutorial will teach you JavaScript from basic to advanced.
-				        </Post>
-
-            <Footer>
-              <Separator />
-              <FooterMenu>
-                <Button>
-                  <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
-                  <Text>255 Likes</Text>
-                </Button>
-                <Button>
-                  <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                  <Text>Copy</Text>
-                </Button>
-                <Button>
-                  <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                  <Text>Share</Text>
-                </Button>
-              </FooterMenu>
-            </Footer>
-            <BottomDivider />
-          </Container>
-
+          </Container> */}
         </ScrollView>
       </SafeAreaView>
     );
