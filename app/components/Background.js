@@ -15,12 +15,14 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     width: '100%',
+    backgroundColor: '#fff',
   },
   container: {
     flex: 1,
     padding: 20,
     width: '100%',
-    maxWidth: 340,
+    // maxWidth: 340,
+    backgroundColor: '#fff',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',

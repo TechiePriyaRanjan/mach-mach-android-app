@@ -1,50 +1,70 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import Background from '../components/Background';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
-import Button from '../components/Button';
-import TextInput from '../components/TextInput';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import BackButton from '../components/BackButton';
+import Background from '../components/Background';
+import Button from '../components/Button';
+import Header from '../components/Header';
+import Logo from '../components/Logo';
+import axios from 'axios';
+import TextInput from '../components/TextInput';
 import { theme } from '../config/theme';
-import { emailValidator, passwordValidator } from '../config/validator';
+import { passwordValidator, phoneValidator } from '../config/validator';
+
+const url = 'https://machmach.epictechworld.in/api/user-login';
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({ value: '', error: '' });
+  const [phoneNumer, setPhoneNumber] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
   const _onLoginPressed = () => {
-    const emailError = emailValidator(email.value);
+    const phoneError = phoneValidator(phoneNumer.value);
     const passwordError = passwordValidator(password.value);
 
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError });
+    if (phoneError || passwordError) {
+      setPhoneNumber({ ...phoneNumer, error: phoneError });
       setPassword({ ...password, error: passwordError });
       return;
     }
 
-    navigation.navigate('Dashboard');
+    // useEffect(() => {}, [])
+    // console.log(typeof phoneNumer.value, typeof password.value)
+
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        api_key: '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
+        mobile_no: phoneNumer.value,
+        password: password.value,
+      }
+    }).then(function (response) {
+      console.log(response);
+      navigation.navigate('BottomNavigation');
+      // alert(response);
+    })
+      .catch(function (error) {
+        console.log(error);
+        // alert(error)
+      });
+
+    // navigation.navigate('BottomNavigation');
   };
 
   return (
     <Background>
       <BackButton goBack={() => navigation.navigate('HomeScreen')} />
-
       <Logo />
-
       <Header>Welcome back.</Header>
 
       <TextInput
-        label="Email"
+        label="Phone Number"
         returnKeyType="next"
-        value={email.value}
-        onChangeText={text => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
+        value={phoneNumer.value}
+        onChangeText={text => setPhoneNumber({ value: text, error: '' })}
+        error={!!phoneNumer.error}
+        errorText={phoneNumer.error}
+        textContentType="telephoneNumber"
+        keyboardType="number-pad"
       />
 
       <TextInput

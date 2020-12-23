@@ -10,6 +10,7 @@ import HomeScreen from './HomeScreen';
 import LikedPost from './LikedPost';
 import LoginScreen from './LoginScreen';
 import MyPost from './MyPost';
+import BottomNavigation from "../navigation/BottomNavigation";
 import OTPVerificationScreen from './OTPVerificationScreen';
 import Profile from './Profile';
 import Search from './Search';
@@ -27,6 +28,7 @@ const Router = createStackNavigator(
     LikedPost,
     LoginScreen,
     MyPost,
+    BottomNavigation,
     OTPVerificationScreen,
     Profile,
     Search,
