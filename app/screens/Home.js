@@ -4,6 +4,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import styled from 'styled-components/native';
 import Avatar from '../components/Avatar';
+import ReadMore from 'react-native-read-more-text';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -24,7 +25,9 @@ export class Home extends Component {
     this.setState({ postData: response.data.data });
     console.log(this.state.postData);
   }
-
+  _handleTextReady = () => {
+    console.log('ready!');
+  }
   render() {
     let allPosts = this.state.postData;
 
@@ -33,7 +36,7 @@ export class Home extends Component {
         <ScrollView showsVerticalScrollIndicator={false}>
 
           {allPosts.map((key, index) => (
-            <Container>
+            <Container key={key.post_id}>
               <Header>
                 <Row>
                   <Image
@@ -59,7 +62,13 @@ export class Home extends Component {
                   resizeMode="contain"
                 />
                 :
-                <Post>{key.post}</Post>
+                <View style={styles.postText}>
+                  <ReadMore
+                    numberOfLines={4}
+                    onReady={this._handleTextReady}>
+                    {key.post}
+                  </ReadMore>
+                </View>
               }
               <Footer>
                 <Separator />
@@ -90,42 +99,6 @@ export class Home extends Component {
               <BottomDivider />
             </Container>
           ))}
-
-          {/* <Container>
-            <Header>
-              <Row>
-                <Avatar source={require("../assets/images/profile-pic.jpg")} />
-                <View style={{ paddingLeft: 10 }}>
-                  <User>Neha Sharma</User>
-                  <Row>
-                    <Time>Nov 17, 2020 at 2:05 PM</Time>
-                  </Row>
-                  <Row><Text style={{ color: 'blue' }}>#FunnyJokes</Text></Row>
-                </View>
-              </Row>
-              <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-            </Header>
-
-            <Photo source={require("../assets/images/media2.jpg")} />
-            <Footer>
-              <Separator />
-              <FooterMenu>
-                <Button>
-                  <FeatherIcon name="heart" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                  <Text>23 Likes</Text>
-                </Button>
-                <Button>
-                  <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                  <Text>12 </Text>
-                </Button>
-                <Button>
-                  <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                  <Text>Share</Text>
-                </Button>
-              </FooterMenu>
-            </Footer>
-            <BottomDivider />
-          </Container> */}
         </ScrollView>
       </SafeAreaView>
     );
@@ -147,17 +120,24 @@ const styles = StyleSheet.create({
     borderRadius: 4
   },
   postImage: {
-    marginTop: 9,
+    marginTop: 2,
     // width: '100%',
     // height: 300,
     height: imageHeight,
     width: imageWidth,
   },
+  postText: {
+    fontSize: 14,
+    color: '#222121',
+    lineHeight: 18,
+    padding: 12,
+    marginTop: 5
+  }
 });
 
 const Container = styled.View`
 	flex: 1;
-	margin-top: 30px;
+	margin-top: 10px;
 `
 const Header = styled.View`
 	height: 50px;
@@ -166,10 +146,12 @@ const Header = styled.View`
 	justify-content: space-between;
 	margin-top: 6px;
 	padding: 0 11px;
+  ${'' /* border: 1px solid red; */}
 `
 const Row = styled.View`
 	align-items: center;
 	flex-direction: row;
+  ${'' /* border: 1px red solid; */}
 `
 const User = styled.Text`
 	font-size: 12px;
@@ -181,10 +163,12 @@ const Time = styled.Text`
 	color: #747476;
 `
 const Post = styled.Text`
-	font-size: 12px;
+	font-size: 14px;
 	color: #222121;
-	line-height: 16px;
-	padding: 0 11px;
+	line-height: 18px;
+	padding: 12px;
+  margin-top: 5px;
+  ${'' /* border: 1px solid red; */}
 `
 const Photo = styled.Image`
 	margin-top: 9px;
