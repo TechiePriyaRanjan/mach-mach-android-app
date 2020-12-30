@@ -5,13 +5,13 @@ import axios from 'axios';
 import styled from 'styled-components/native';
 import Avatar from '../components/Avatar';
 import ReadMore from 'react-native-read-more-text';
-// import { WebServices } from '../services';
+import { WebServices } from '../services';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
 const imageWidth = dimensions.width;
 
-export class GetPostByUserId extends Component {
+export class GetLikedPostsByUserId extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +23,7 @@ export class GetPostByUserId extends Component {
   }
   async getAllPostData() {
     let response = await axios.get('https://machmach.epictechworld.in/api/user-post/2?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
+    // let response = await axios.get(WebServices.APIs.baseURL + '/' + WebServices.GETMethod.getPostsByUserID + '/' + 2 + '/' ? + api_key + '=' + WebServices.APIs.api_key);
     this.setState({ postData: response.data.data });
     // console.log(this.state.postData);
   }
@@ -223,4 +224,4 @@ const BottomDivider = styled.View`
 	background: #f0f2f5;
 `
 
-export default GetPostByUserId;
+export default GetLikedPostsByUserId;

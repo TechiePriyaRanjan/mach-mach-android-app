@@ -8,6 +8,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 const { width, height } = Dimensions.get('screen');
 // const thumbMeasure = (width - 48 - 32) / 3;
 const thumbMeasure = (width - 48) / 3;
+import { GetLikedPostsByUserId } from "../components/GetLikedPostsByUserId";
 
 export class LikedPost extends Component {
   constructor(props) {
@@ -20,11 +21,10 @@ export class LikedPost extends Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-
           <View style={{ padding: 10 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <Block style={{ paddingBottom: 100 }}>
-
+                <GetLikedPostsByUserId />
               </Block>
             </ScrollView>
           </View>
