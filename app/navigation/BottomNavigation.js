@@ -40,7 +40,7 @@ function MyTabs() {
       activeColor="rgb(236,35,118)"
       inactiveColor="#cbcbcb"
       labelStyle={{ fontSize: 10 }}
-      barStyle={{ backgroundColor: '#ffffff', paddingBottom: 10, paddingTop: 10, }}
+      barStyle={{ backgroundColor: '#ffffff', paddingBottom: 0, paddingTop: 0, }}
       style={{ backgroundColor: 'pink' }}
       shifting={true}
       swipeEnabled={true}
@@ -54,7 +54,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
-            <FeatherIcon name="home" color={color} size={24} />
+            <FeatherIcon name="home" color={color} size={21} />
           ),
         }}
       />
@@ -64,7 +64,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Search',
           tabBarIcon: ({ color }) => (
-            <FeatherIcon name="search" color={color} size={24} />
+            <FeatherIcon name="search" color={color} size={21} />
           ),
         }}
       />
@@ -74,7 +74,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Add',
           tabBarIcon: ({ color }) => (
-            <FeatherIcon name="plus-circle" color={color} size={24} />
+            <FeatherIcon name="plus-circle" color={color} size={21} />
           ),
         }}
       />
@@ -84,7 +84,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Categories',
           tabBarIcon: ({ color }) => (
-            <FeatherIcon name="grid" color={color} size={24} />
+            <FeatherIcon name="grid" color={color} size={21} />
           ),
         }}
       />
@@ -94,7 +94,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
-            <FeatherIcon name="user" color={color} size={24} />
+            <FeatherIcon name="user" color={color} size={21} />
           ),
         }}
       />

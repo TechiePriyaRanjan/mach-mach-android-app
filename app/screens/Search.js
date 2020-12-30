@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, SafeAreaView, TextInput, Platform, StatusBar } from 'react-native';
+import { View, StyleSheet, SafeAreaView, TextInput, Platform, StatusBar, RefreshControl } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
 export class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      refreshing: false,
     };
   }
 
@@ -43,7 +44,7 @@ export class Search extends Component {
               <FeatherIcon name="search" size={20} style={{ marginRight: 10, textAlignVertical: 'center' }} />
               <TextInput
                 underlineColorAndroid="transparent"
-                placeholder="Search something..."
+                placeholder="Search user..."
                 placeholderTextColor="grey"
                 style={{ flex: 1, fontWeight: '700', backgroundColor: 'white' }} />
             </View>

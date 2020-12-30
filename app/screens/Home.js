@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, Image, Dimensions } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, View, Image, Dimensions, RefreshControl } from "react-native";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import styled from 'styled-components/native';
@@ -14,7 +14,8 @@ export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      postData: []
+      postData: [],
+      refreshing: false
     };
   }
   componentDidMount() {
@@ -28,77 +29,94 @@ export class Home extends Component {
   _handleTextReady = () => {
     console.log('ready!');
   }
+  _refreshListView() {
+    //Start Rendering Spinner
+    this.setState({ refreshing: true }),
+      this.getCategoriesData()
+    //Updating the dataSource with new data
+
+    this.setState({ refreshing: false }) //Stop Rendering Spinner
+  }
   render() {
     let allPosts = this.state.postData;
 
     return (
       <SafeAreaView style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this._refreshListView()} />
+          }
+        >
 
-          {allPosts.map((key, index) => (
-            <Container key={key.post_id}>
-              <Header>
-                <Row>
+          {
+            allPosts.map((key, index) => (
+              <Container key={key.post_id}>
+                <Header>
+                  <Row>
+                    <Image
+                      style={styles.tinyLogo}
+                      source={{ uri: key.profile_pic }}
+                    />
+                    <View style={{ paddingLeft: 10 }}>
+                      <User>{key.posted_by}</User>
+                      <Row>
+                        <Time>{key.posted_on}</Time>
+                      </Row>
+                      <Row><Text style={{ color: 'blue' }}>{key.category}</Text></Row>
+                    </View>
+                  </Row>
+                  <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+                </Header>
+
+                {key.type === "Image"
+                  ?
                   <Image
-                    style={styles.tinyLogo}
-                    source={{ uri: key.profile_pic }}
+                    style={styles.postImage}
+                    source={{ uri: key.post }}
+                    resizeMode="contain"
                   />
-                  <View style={{ paddingLeft: 10 }}>
-                    <User>{key.posted_by}</User>
-                    <Row>
-                      <Time>{key.posted_on}</Time>
-                    </Row>
-                    <Row><Text style={{ color: 'blue' }}>{key.category}</Text></Row>
+                  :
+                  <View style={styles.postText}>
+                    <ReadMore
+                      numberOfLines={4}
+                      onReady={this._handleTextReady}>
+                      {key.post}
+                    </ReadMore>
                   </View>
-                </Row>
-                <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-              </Header>
-
-              {key.type === "Image"
-                ?
-                <Image
-                  style={styles.postImage}
-                  source={{ uri: key.post }}
-                  resizeMode="contain"
-                />
-                :
-                <View style={styles.postText}>
-                  <ReadMore
-                    numberOfLines={4}
-                    onReady={this._handleTextReady}>
-                    {key.post}
-                  </ReadMore>
-                </View>
-              }
-              <Footer>
-                <Separator />
-                <FooterMenu>
-                  <Button>
-                    <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
-                    <Text>{key.total_like} Likes</Text>
-                  </Button>
-                  {
-                    key.type === "Image"
-                      ?
-                      <Button>
-                        <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                        <Text>{key.total_download} </Text>
-                      </Button>
-                      :
-                      <Button>
-                        <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                        <Text>Copy</Text>
-                      </Button>
-                  }
-                  <Button>
-                    <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                    <Text>Share</Text>
-                  </Button>
-                </FooterMenu>
-              </Footer>
-              <BottomDivider />
-            </Container>
-          ))}
+                }
+                <Footer>
+                  <Separator />
+                  <FooterMenu>
+                    <Button>
+                      <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
+                      <Text>{key.total_like} Likes</Text>
+                    </Button>
+                    {
+                      key.type === "Image"
+                        ?
+                        <Button>
+                          <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                          <Text>{key.total_download} </Text>
+                        </Button>
+                        :
+                        <Button>
+                          <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                          <Text>Copy</Text>
+                        </Button>
+                    }
+                    <Button>
+                      <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                      <Text>Share</Text>
+                    </Button>
+                  </FooterMenu>
+                </Footer>
+                <BottomDivider />
+              </Container>
+            ))
+          }
         </ScrollView>
       </SafeAreaView>
     );
