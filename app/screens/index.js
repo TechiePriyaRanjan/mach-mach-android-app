@@ -16,6 +16,7 @@ import Profile from './Profile';
 import Search from './Search';
 import SplashScreen from './SplashScreen';
 import SignUpScreen from './SignUpScreen';
+import { PostText } from "./PostText";
 
 const Router = createStackNavigator(
   {
@@ -30,13 +31,14 @@ const Router = createStackNavigator(
     MyPost,
     BottomNavigation,
     OTPVerificationScreen,
+    PostText,
     Profile,
     Search,
     SplashScreen,
     SignUpScreen
   },
   {
-    initialRouteName: 'SplashScreen',
+    initialRouteName: 'PostText',
     headerMode: 'none',
   }
 );
