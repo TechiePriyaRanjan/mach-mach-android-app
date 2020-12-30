@@ -23,17 +23,8 @@ export class LikedPost extends Component {
 
           <View style={{ padding: 10 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-                <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                  {Images.Viewed.map((img, imgIndex) => (
-                    <Image
-                      source={{ uri: img }}
-                      key={`viewed-${img}`}
-                      resizeMode="cover"
-                      style={styles.thumb}
-                    />
-                  ))}
-                </Block>
+              <Block style={{ paddingBottom: 100 }}>
+
               </Block>
             </ScrollView>
           </View>

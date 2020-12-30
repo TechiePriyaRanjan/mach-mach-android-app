@@ -10,7 +10,7 @@ const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
 const imageWidth = dimensions.width;
 
-export class Home extends Component {
+export class GetPostByUserId extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,10 +18,10 @@ export class Home extends Component {
     };
   }
   componentDidMount() {
-    this.getCategoriesData()
+    this.getAllPostData()
   }
-  async getCategoriesData() {
-    let response = await axios.get('https://machmach.epictechworld.in/api/post?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
+  async getAllPostData() {
+    let response = await axios.get('https://machmach.epictechworld.in/api/user-post/2?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
     this.setState({ postData: response.data.data });
     // console.log(this.state.postData);
   }
@@ -222,4 +222,4 @@ const BottomDivider = styled.View`
 	background: #f0f2f5;
 `
 
-export default Home;
+export default GetPostByUserId;

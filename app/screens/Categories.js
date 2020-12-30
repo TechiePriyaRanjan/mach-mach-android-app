@@ -48,7 +48,7 @@ export class Categories extends Component {
           </View>
           <View style={{ padding: 10 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
+              <Block style={{ paddingBottom: 100 }}>
                 {/* <Block row space="between" style={{ flexWrap: 'wrap' }} >
                 {Images.Viewed.map((img, imgIndex) => (
                   <Image

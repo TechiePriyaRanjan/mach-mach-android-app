@@ -6,7 +6,7 @@ import { HeaderHeight } from "../config/utils";
 import { Images } from '../services';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 const { width, height } = Dimensions.get('screen');
-// const thumbMeasure = (width - 48 - 32) / 3;
+import GetPostByUserId from '../components/GetPostByUserId';
 const thumbMeasure = (width - 48) / 3;
 
 export class MyPost extends Component {
@@ -22,18 +22,7 @@ export class MyPost extends Component {
         <View style={{ flex: 1 }}>
           <View style={{ padding: 10 }}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-                <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                  {Images.Viewed.map((img, imgIndex) => (
-                    <Image
-                      source={{ uri: img }}
-                      key={`viewed-${img}`}
-                      resizeMode="cover"
-                      style={styles.thumb}
-                    />
-                  ))}
-                </Block>
-              </Block>
+              <GetPostByUserId />
             </ScrollView>
           </View>
         </View>
