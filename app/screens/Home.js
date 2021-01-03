@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, Image, Dimensions, RefreshControl } from "react-native";
+import { Share, SafeAreaView, ScrollView, StyleSheet, View, Image, TouchableOpacity, Dimensions, RefreshControl } from "react-native";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import styled from 'styled-components/native';
@@ -9,13 +9,13 @@ import ReadMore from 'react-native-read-more-text';
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
 const imageWidth = dimensions.width;
-
 export class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
       postData: [],
-      refreshing: false
+      refreshing: false,
+      share: 'key.post'
     };
   }
   componentDidMount() {
@@ -26,9 +26,9 @@ export class Home extends Component {
     this.setState({ postData: response.data.data });
     // console.log(this.state.postData);
   }
-  _handleTextReady = () => {
-    console.log('ready!');
-  }
+  // _handleTextReady = () => {
+  //   console.log('ready!');
+  // }
   _refreshListView() {
     //Start Rendering Spinner
     this.setState({ refreshing: true }),
@@ -37,6 +37,28 @@ export class Home extends Component {
 
     this.setState({ refreshing: false }) //Stop Rendering Spinner
   }
+
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          this.state.share,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   render() {
     let allPosts = this.state.postData;
 
@@ -82,7 +104,8 @@ export class Home extends Component {
                   <View style={styles.postText}>
                     <ReadMore
                       numberOfLines={4}
-                      onReady={this._handleTextReady}>
+                    // onReady={this._handleTextReady}
+                    >
                       {key.post}
                     </ReadMore>
                   </View>
@@ -107,10 +130,12 @@ export class Home extends Component {
                           <Text>Copy</Text>
                         </Button>
                     }
-                    <Button>
+                    {/* <Button> */}
+                    <TouchableOpacity onPress={this.onShare}>
                       <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                       <Text>Share</Text>
-                    </Button>
+                    </TouchableOpacity>
+                    {/* </Button> */}
                   </FooterMenu>
                 </Footer>
                 <BottomDivider />

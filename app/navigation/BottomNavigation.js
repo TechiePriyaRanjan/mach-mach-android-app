@@ -3,35 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-// import Add from '../screens/Add';
+import Add from '../screens/Add';
 import Categories from '../screens/Categories';
 import Home from '../screens/Home';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
-import RBSheet from "react-native-raw-bottom-sheet";
 
 const Tab = createMaterialBottomTabNavigator();
-
-function Add({ navigation }) {
-  React.useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', e => {
-      // Prevent default behavior
-      e.preventDefault();
-
-      alert('Default behavior prevented');
-      // Do something manually
-      // ...
-    });
-
-    return unsubscribe;
-  }, []);
-
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
 
 function MyTabs() {
   return (
