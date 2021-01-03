@@ -9,10 +9,12 @@ import axios from 'axios';
 import TextInput from '../components/TextInput';
 import { theme } from '../config/theme';
 import { passwordValidator, phoneValidator } from '../config/validator';
+import { connect } from 'react-redux'
+import { setProfileData } from '../../store/actions'
 
 const url = 'https://machmach.epictechworld.in/api/user-login';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, setProfile }) => {
   const [phoneNumer, setPhoneNumber] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
@@ -38,7 +40,8 @@ const LoginScreen = ({ navigation }) => {
         password: password.value,
       }
     }).then(function (response) {
-      console.log(response);
+      console.log(response.data.data);
+      setProfile(response.data.data);
       navigation.navigate('BottomNavigation');
       // alert(response);
     })
@@ -118,4 +121,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(LoginScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setProfile: (value) => dispatch(setProfileData(value))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(memo(LoginScreen));

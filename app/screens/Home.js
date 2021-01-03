@@ -5,6 +5,8 @@ import axios from 'axios';
 import styled from 'styled-components/native';
 import Avatar from '../components/Avatar';
 import ReadMore from 'react-native-read-more-text';
+import { connect } from 'react-redux'
+import { setProfileData } from '../../store/actions'
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -24,7 +26,7 @@ export class Home extends Component {
   async getCategoriesData() {
     let response = await axios.get('https://machmach.epictechworld.in/api/post?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
     this.setState({ postData: response.data.data });
-    // console.log(this.state.postData);
+    console.log(response.data.data);
   }
   // _handleTextReady = () => {
   //   console.log('ready!');
@@ -61,7 +63,8 @@ export class Home extends Component {
 
   render() {
     let allPosts = this.state.postData;
-
+    const { profile } = this.props;
+    console.log(profile, 'gs')
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -266,5 +269,18 @@ const BottomDivider = styled.View`
 	height: 9px;
 	background: #f0f2f5;
 `
+const mapStateToProps = (state) => {
+  return {
+    profile: state.profiled
 
-export default Home;
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setProfile: (value) => dispatch(setProfileData(value))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
+// export default Home
