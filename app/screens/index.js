@@ -38,7 +38,7 @@ const Router = createStackNavigator(
     SignUpScreen
   },
   {
-    initialRouteName: 'SplashScreen',
+    initialRouteName: 'BottomNavigation',
     headerMode: 'none',
   }
 );

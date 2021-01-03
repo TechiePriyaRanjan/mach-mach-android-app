@@ -38,11 +38,11 @@ export class Home extends Component {
     this.setState({ refreshing: false }) //Stop Rendering Spinner
   }
 
-  onShare = async () => {
+  onShare = async (value) => {
     try {
       const result = await Share.share({
         message:
-          this.state.share,
+          value.post,
       });
 
       if (result.action === Share.sharedAction) {
@@ -74,73 +74,75 @@ export class Home extends Component {
         >
 
           {
-            allPosts.map((key, index) => (
-              <Container key={key.post_id}>
-                <Header>
-                  <Row>
-                    <Image
-                      style={styles.tinyLogo}
-                      source={{ uri: key.profile_pic }}
-                    />
-                    <View style={{ paddingLeft: 10 }}>
-                      <User>{key.posted_by}</User>
-                      <Row>
-                        <Time>{key.posted_on}</Time>
-                      </Row>
-                      <Row><Text style={{ color: 'blue' }}>{key.category}</Text></Row>
-                    </View>
-                  </Row>
-                  <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
-                </Header>
+            allPosts.map((key, index) => {
+              return (
+                <Container key={key.post_id}>
+                  <Header>
+                    <Row>
+                      <Image
+                        style={styles.tinyLogo}
+                        source={{ uri: key.profile_pic }}
+                      />
+                      <View style={{ paddingLeft: 10 }}>
+                        <User>{key.posted_by}</User>
+                        <Row>
+                          <Time>{key.posted_on}</Time>
+                        </Row>
+                        <Row><Text style={{ color: 'blue' }}>{key.category}</Text></Row>
+                      </View>
+                    </Row>
+                    <FeatherIcon name="more-vertical" size={24} color="#52575D"></FeatherIcon>
+                  </Header>
 
-                {key.type === "Image"
-                  ?
-                  <Image
-                    style={styles.postImage}
-                    source={{ uri: key.post }}
-                    resizeMode="contain"
-                  />
-                  :
-                  <View style={styles.postText}>
-                    <ReadMore
-                      numberOfLines={4}
-                    // onReady={this._handleTextReady}
-                    >
-                      {key.post}
-                    </ReadMore>
-                  </View>
-                }
-                <Footer>
-                  <Separator />
-                  <FooterMenu>
-                    <Button>
-                      <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
-                      <Text>{key.total_like} Likes</Text>
-                    </Button>
-                    {
-                      key.type === "Image"
-                        ?
-                        <Button>
-                          <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                          <Text>{key.total_download} </Text>
-                        </Button>
-                        :
-                        <Button>
-                          <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                          <Text>Copy</Text>
-                        </Button>
-                    }
-                    {/* <Button> */}
-                    <TouchableOpacity onPress={this.onShare}>
-                      <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
-                      <Text>Share</Text>
-                    </TouchableOpacity>
-                    {/* </Button> */}
-                  </FooterMenu>
-                </Footer>
-                <BottomDivider />
-              </Container>
-            ))
+                  {key.type === "Image"
+                    ?
+                    <Image
+                      style={styles.postImage}
+                      source={{ uri: key.post }}
+                      resizeMode="contain"
+                    />
+                    :
+                    <View style={styles.postText}>
+                      <ReadMore
+                        numberOfLines={4}
+                      // onReady={this._handleTextReady}
+                      >
+                        {key.post}
+                      </ReadMore>
+                    </View>
+                  }
+                  <Footer>
+                    <Separator />
+                    <FooterMenu>
+                      <Button>
+                        <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
+                        <Text>{key.total_like} Likes</Text>
+                      </Button>
+                      {
+                        key.type === "Image"
+                          ?
+                          <Button>
+                            <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                            <Text>{key.total_download} </Text>
+                          </Button>
+                          :
+                          <Button>
+                            <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                            <Text>Copy</Text>
+                          </Button>
+                      }
+                      {/* <Button> */}
+                      <TouchableOpacity onPress={() => this.onShare(key)}>
+                        <FeatherIcon name="share-2" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
+                        <Text>Share</Text>
+                      </TouchableOpacity>
+                      {/* </Button> */}
+                    </FooterMenu>
+                  </Footer>
+                  <BottomDivider />
+                </Container>
+              )
+            })
           }
         </ScrollView>
       </SafeAreaView>
