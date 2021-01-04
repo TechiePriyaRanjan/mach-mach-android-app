@@ -10,7 +10,7 @@ import { theme } from '../config/theme';
 import { Colors } from '../config';
 import Button from '../components/Button';
 // import { MdKeyboardBackspace } from "react-icons/md";
-
+import { Picker } from '@react-native-picker/picker';
 
 const PostImage = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -26,25 +26,32 @@ const PostImage = ({ navigation }) => {
     navigation.navigate('LoginScreen');
   };
 
+  const [selectedValue, setSelectedValue] = useState("java");
+
   return (
     <Background>
-      <Header>Image Post</Header>
+      <Header>Post Image</Header>
 
-      <TextInput
-        label="Post"
-        returnKeyType="done"
-        multiline
-        numberOfLines={5}
-        value={email.value}
-        onChangeText={text => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoCompleteType="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
-
+      <Text style={styles.label}>
+        Select Category
+      </Text>
+      <Picker
+        selectedValue={selectedValue}
+        style={{
+          height: 50, width: '100%', padding: 12,
+          borderWidth: 1,
+          borderColor: '#aeaeae',
+          backgroundColor: '#FAF7F6',
+        }}
+        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+      >
+        {/* <Picker.Item label="Select Category" value="" enabled={false} /> */}
+        <Picker.Item label="Java" value="java" />
+      </Picker>
+      {/* {console.log(selectedValue)} */}
+      <Text style={styles.label}>
+        Select Image
+      </Text>
       <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
         Submit
       </Button>
@@ -64,6 +71,8 @@ const styles = StyleSheet.create({
   label: {
     color: theme.colors.secondary,
     width: '100%',
+    marginBottom: 10,
+    marginTop: 10
   },
 });
 

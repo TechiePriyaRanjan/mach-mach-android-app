@@ -2,6 +2,10 @@ export const nameValidator = name => {
   if (!name || name.length <= 0) return 'Name cannot be empty.';
   return '';
 };
+export const postTextValidator = posttext => {
+  if (!posttext || posttext.length <= 0) return 'Post text cannot be empty.';
+  return '';
+};
 
 export const phoneValidator = phone => {
   // const phoneNumberRegex = \+?\d[\d -]{8,12}\d;
