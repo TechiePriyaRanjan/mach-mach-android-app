@@ -1,6 +1,6 @@
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-
+import BottomNavigation from "../navigation/BottomNavigation";
 import Add from './Add';
 import Categories from './Categories';
 import Dashboard from './Dashboard';
@@ -10,13 +10,14 @@ import HomeScreen from './HomeScreen';
 import LikedPost from './LikedPost';
 import LoginScreen from './LoginScreen';
 import MyPost from './MyPost';
-import BottomNavigation from "../navigation/BottomNavigation";
 import OTPVerificationScreen from './OTPVerificationScreen';
+import PostImage from './PostImage';
+import PostText from './PostText';
 import Profile from './Profile';
 import Search from './Search';
-import SplashScreen from './SplashScreen';
 import SignUpScreen from './SignUpScreen';
-import { PostText } from "./PostText";
+import SplashScreen from './SplashScreen';
+
 
 const Router = createStackNavigator(
   {
@@ -32,13 +33,14 @@ const Router = createStackNavigator(
     BottomNavigation,
     OTPVerificationScreen,
     PostText,
+    PostImage,
     Profile,
     Search,
     SplashScreen,
     SignUpScreen
   },
   {
-    initialRouteName: 'HomeScreen',
+    initialRouteName: 'BottomNavigation',
     headerMode: 'none',
   }
 );

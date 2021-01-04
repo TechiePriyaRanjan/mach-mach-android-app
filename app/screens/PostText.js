@@ -1,12 +1,8 @@
+import axios from 'axios';
 import { Block } from 'galio-framework';
 import React, { Component } from 'react';
-import { Dimensions, ScrollView, SafeAreaView, StyleSheet, Text, View, ImageBackground } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Colors } from '../config';
-import { HeaderHeight } from "../config/utils";
-import { Images } from '../services';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import axios from 'axios';
-// import BackButton from '../components/BackButton';
 
 const api = axios.create({
   baseURL: 'https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
@@ -44,27 +40,15 @@ export class PostText extends Component {
           }}>
             <View style={{ padding: 16 }}>
               {/* <FeatherIcon name="grid" color={Colors.ThemeColors.Primary} size={24} /> */}
-
-              <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colors.ThemeColors.Primary }}>
-                {/* <BackButton goBack={() => navigation.navigate('Home')} /> */}
-                Add Text
-              </Text>
+              <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colors.ThemeColors.Primary }}>Categories</Text>
             </View>
           </View>
           <View style={{ padding: 10 }}>
-            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-            <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
-              <Block row space="between" style={{ flexWrap: 'wrap' }} >
-                {categories.map((key, index) => {
-                  return (
-                    <View>
-                      <Text key={key.category_id}>{key.category_name},</Text>
-                    </View>)
-                })}
-              </Block>
+            <Block style={{ paddingBottom: 100 }}>
+              <Text>JavScript!!</Text>
+
 
             </Block>
-            {/* </ScrollView> */}
           </View>
         </View>
       </SafeAreaView>
@@ -76,10 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column"
   },
-  CategoriesTitle: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+  text: {
+    color: "white",
+    fontSize: 32,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000"
+  },
 });
 export default PostText;
