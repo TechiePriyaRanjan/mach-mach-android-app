@@ -1,16 +1,43 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import Add from '../screens/Add';
+// import Add from '../screens/Add';
 import Categories from '../screens/Categories';
 import Home from '../screens/Home';
+import PostImage from '../screens/PostImage';
+import PostText from '../screens/PostText';
 import Profile from '../screens/Profile';
 import Search from '../screens/Search';
 
 const Tab = createMaterialBottomTabNavigator();
 
+function Add() {
+  return (
+    <Tab.Navigator barStyle={{ backgroundColor: 'rgb(236,35,118)', paddingBottom: 0, paddingTop: 0, }}>
+      <Tab.Screen
+        name="PostImage"
+        component={PostImage}
+        options={{
+          tabBarLabel: 'Image',
+          tabBarIcon: ({ color }) => (
+            <FeatherIcon name="image" color={color} size={21} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="PostText"
+        component={PostText}
+        options={{
+          tabBarLabel: 'Text',
+          tabBarIcon: ({ color }) => (
+            <FeatherIcon name="file-text" color={color} size={21} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 function MyTabs() {
   return (
     <Tab.Navigator

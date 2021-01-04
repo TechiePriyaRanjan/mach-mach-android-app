@@ -1,71 +1,69 @@
-import axios from 'axios';
-import { Block } from 'galio-framework';
-import React, { Component } from 'react';
-import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import React, { memo, useState } from 'react';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { emailValidator } from '../config/validator';
+import Background from '../components/Background';
+import BackButton from '../components/BackButton';
+import Logo from '../components/Logo';
+import Header from '../components/Header';
+import TextInput from '../components/TextInput';
+import { theme } from '../config/theme';
 import { Colors } from '../config';
+import Button from '../components/Button';
+// import { MdKeyboardBackspace } from "react-icons/md";
 
-const api = axios.create({
-  baseURL: 'https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
-})
-const { width, height } = Dimensions.get('screen');
-// const thumbMeasure = (width - 48 - 32) / 3;
-const thumbMeasure = (width - 48) / 2;
+const PostText = ({ navigation }) => {
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const _onSendPressed = () => {
+    const emailError = emailValidator(email.value);
 
-export class PostText extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categoriesData: []
-    };
-  }
-  componentDidMount() {
-    this.getCategoriesData()
-  }
-  async getCategoriesData() {
-    let response = await axios.get('https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ');
-    this.setState({ categoriesData: response.data.data });
-  }
-  render() {
-    let categories = this.state.categoriesData;
-    // console.log('Rajat', categories);
-    return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <View style={{
-            height: this.startHeaderHeight,
-            backgroundColor: 'white',
-            borderBottomWidth: 1,
-            borderBottomColor: "#dddddd",
-            // marginBottom: 1
-          }}>
-            <View style={{ padding: 16 }}>
-              {/* <FeatherIcon name="grid" color={Colors.ThemeColors.Primary} size={24} /> */}
-              <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colors.ThemeColors.Primary }}>Categories</Text>
-            </View>
-          </View>
-          <View style={{ padding: 10 }}>
-            <Block style={{ paddingBottom: 100 }}>
-              <Text>JavScript!!</Text>
+    if (emailError) {
+      setEmail({ ...email, error: emailError });
+      return;
+    }
+    navigation.navigate('Home');
+  };
 
 
-            </Block>
-          </View>
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
+  return (
+    <Background>
+      <Header>Text Post</Header>
+
+
+      <TextInput
+        label="Post"
+        returnKeyType="done"
+        multiline
+        numberOfLines={5}
+        value={email.value}
+        onChangeText={text => setEmail({ value: text, error: '' })}
+        error={!!email.error}
+        errorText={email.error}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
+      />
+
+      <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
+        Submit
+      </Button>
+
+    </Background>
+  );
+};
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column"
+  back: {
+    width: '100%',
+    marginTop: 12,
   },
-  text: {
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-    textAlign: "center",
-    backgroundColor: "#000000"
+  button: {
+    marginTop: 12,
+  },
+  label: {
+    color: theme.colors.secondary,
+    width: '100%',
   },
 });
-export default PostText;
+
+export default memo(PostText);
