@@ -1,4 +1,5 @@
 import { Picker } from '@react-native-picker/picker';
+import axios from 'axios';
 import React, { memo, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import Background from '../components/Background';
@@ -6,33 +7,48 @@ import Button from '../components/Button';
 import Header from '../components/Header';
 import TextInput from '../components/TextInput';
 import { theme } from '../config/theme';
-import { postTextValidator } from '../config/validator';
+import { categoryValidator, postTextValidator } from '../config/validator';
 
+
+const url = 'https://machmach.epictechworld.in/api/post-text';
 
 const PostText = ({ navigation }) => {
 
   const [postText, setPostText] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+  const [category, setCategory] = useState({ value: '', error: '' });
 
   const _onSendPressed = () => {
     const postTextError = postTextValidator(postText.value);
-    const passwordError = passwordValidator(password.value);
+    const categoryError = categoryValidator(category.value);
 
-    if (postTextError || passwordError) {
+    if (postTextError || categoryError) {
       setPostText({ ...postText, error: postTextError });
-      setPassword({ ...password, error: passwordError });
+      setCategory({ ...category, error: categoryError });
       return;
     }
 
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        api_key: '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
+        post: postText.value,
+        category_id: 4,
+        user_id: 4
+      }
+    }).then(function (response) {
+      console.log(response);
+      navigation.navigate('Home');
+      alert(response);
+    })
+      .catch(function (error) {
+        console.log(error);
+        alert(error)
+      });
 
-    if (emailError) {
-      setEmail({ ...email, error: emailError });
-      return;
-    }
-    navigation.navigate('Home');
+    // navigation.navigate('Home');
   };
   const [selectedValue, setSelectedValue] = useState("java");
-
 
   return (
     <Background>
