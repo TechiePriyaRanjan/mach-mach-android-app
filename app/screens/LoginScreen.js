@@ -11,6 +11,7 @@ import { theme } from '../config/theme';
 import { passwordValidator, phoneValidator } from '../config/validator';
 import { connect } from 'react-redux'
 import { setProfileData } from '../../store/actions'
+import Snackbar from 'react-native-snackbar';
 
 const url = 'https://machmach.epictechworld.in/api/user-login';
 
@@ -27,10 +28,6 @@ const LoginScreen = ({ navigation, setProfile }) => {
       setPassword({ ...password, error: passwordError });
       return;
     }
-
-    // useEffect(() => {}, [])
-    // console.log(typeof phoneNumer.value, typeof password.value)
-
     axios({
       method: 'post',
       url: url,
@@ -40,17 +37,21 @@ const LoginScreen = ({ navigation, setProfile }) => {
         password: password.value,
       }
     }).then(function (response) {
-      console.log(response.data.data);
+      Snackbar.show({
+        text: 'Login successfully!',
+        duration: Snackbar.LENGTH_LONG,
+        backgroundColor: '#5cb85c'
+      });
       setProfile(response.data.data);
       navigation.navigate('BottomNavigation');
-      // alert(response);
     })
       .catch(function (error) {
-        console.log(error);
-        // alert(error)
+        Snackbar.show({
+          text: 'Something went wrong!',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: '#FF0000'
+        });
       });
-
-    // navigation.navigate('BottomNavigation');
   };
 
   return (

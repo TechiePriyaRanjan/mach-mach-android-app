@@ -1,7 +1,8 @@
 import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
+import Snackbar from 'react-native-snackbar';
 import Background from '../components/Background';
 import Button from '../components/Button';
 import Header from '../components/Header';
@@ -9,46 +10,63 @@ import TextInput from '../components/TextInput';
 import { theme } from '../config/theme';
 import { categoryValidator, postTextValidator } from '../config/validator';
 
-
 const url = 'https://machmach.epictechworld.in/api/post-text';
 
 const PostText = ({ navigation }) => {
-
   const [postText, setPostText] = useState({ value: '', error: '' });
   const [category, setCategory] = useState({ value: '', error: '' });
+  const [selectedValue, setSelectedValue] = useState();
+  const [state, setState] = useState([])
+
+  useEffect(() => {
+    fetch('https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ')
+      .then(data => data.json())
+      .then(json => setState(json.data))
+  }, [])
+
+  console.log("Categories List", state)
+
+  let Lists = state.map((myValue, myIndex) => {
+    return (
+      <Picker.Item label={myValue.category_name} value={myValue.category_id} key={myValue.category_id} />
+      // alert(myValue.category_name - myValue.category_id)
+    )
+  });
 
   const _onSendPressed = () => {
     const postTextError = postTextValidator(postText.value);
     const categoryError = categoryValidator(category.value);
 
-    if (postTextError || categoryError) {
+    if (postTextError) {
       setPostText({ ...postText, error: postTextError });
-      setCategory({ ...category, error: categoryError });
+      // setCategory({ ...category, error: categoryError });
+      console.log('khasd')
       return;
     }
-
     axios({
       method: 'post',
       url: url,
       data: {
         api_key: '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
         post: postText.value,
-        category_id: 4,
+        category_id: selectedValue,
         user_id: 4
       }
     }).then(function (response) {
-      console.log(response);
-      navigation.navigate('Home');
-      alert(response);
-    })
-      .catch(function (error) {
-        console.log(error);
-        alert(error)
+      Snackbar.show({
+        text: 'Post added successfully!',
+        duration: Snackbar.LENGTH_LONG,
+        backgroundColor: '#5cb85c'
       });
-
-    // navigation.navigate('Home');
+      navigation.navigate('Home');
+    }).catch(function (error) {
+      Snackbar.show({
+        text: 'Something went wrong!',
+        duration: Snackbar.LENGTH_LONG,
+        backgroundColor: 'red'
+      });
+    });
   };
-  const [selectedValue, setSelectedValue] = useState("java");
 
   return (
     <Background>
@@ -67,8 +85,8 @@ const PostText = ({ navigation }) => {
         }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
-        <Picker.Item label="Jokes" value="java" />
-        <Picker.Item label="English Quotes" value="javas" />
+        {/* <Picker.Item label="Jokes" value="8" /> */}
+        {Lists}
       </Picker>
 
       <Text style={styles.label}>

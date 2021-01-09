@@ -1,11 +1,11 @@
 import Images from './Images';
 import WebServices from './WebServices';
-// import materialTheme from './Theme';
+import { getCategories } from './Categories';
 // import utils from './utils';
 
 export {
   Images,
   WebServices,
-  // materialTheme,
+  getCategories,
   // utils,
 }
