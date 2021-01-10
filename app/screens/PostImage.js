@@ -1,51 +1,68 @@
-import React, { memo, useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { emailValidator } from '../config/validator';
-import Background from '../components/Background';
-import BackButton from '../components/BackButton';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
-import TextInput from '../components/TextInput';
-import { theme } from '../config/theme';
-import { Colors } from '../config';
-import Button from '../components/Button';
-// import { MdKeyboardBackspace } from "react-icons/md";
 import { Picker } from '@react-native-picker/picker';
+import React, { memo, useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import Background from '../components/Background';
+import Button from '../components/Button';
+import Header from '../components/Header';
+import { theme } from '../config/theme';
+import { postTextValidator, categoryValidator } from '../config/validator';
+import axios from 'axios';
+const url = 'https://machmach.epictechworld.in/api/post-image?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ';
+const api_key = '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ';
 
 const PostImage = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [singleFile, setSingleFile] = useState(null);
+  const [category, setCategory] = useState({ value: '', error: '' });
+  const [selectedValue, setSelectedValue] = useState();
+  const [state, setState] = useState([])
+
+  useEffect(() => {
+    fetch('https://machmach.epictechworld.in/api/category?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ')
+      .then(data => data.json())
+      .then(json => setState(json.data))
+  }, [])
+
+  let Lists = state.map((myValue, myIndex) => {
+    return (
+      <Picker.Item label={myValue.category_name} value={myValue.category_id} key={myValue.category_id} />
+    )
+  });
 
   const uploadImage = async () => {
     // Check if any file is selected or not
     if (singleFile != null) {
       // If file selected then create FormData
       const fileToUpload = singleFile;
-      const data = new FormData();
-      data.append('name', 'Image Upload');
-      data.append('file_attachment', fileToUpload);
-      data.append('user_id', 3);
-      data.append('category_id', 2);
-      // Please change file upload URL
-      let res = await fetch(
-        'https://machmach.epictechworld.in/api/post-image?api_key=3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ',
-        {
-          method: 'post',
-          body: data,
-          data: {
-            api_key: '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ'
-          },
-          headers: {
-            'Content-Type': 'multipart/form-data; '
-          },
+
+      const formData = new FormData();
+      formData.append('post', fileToUpload);
+      formData.append('user_id', 3);
+      formData.append('category_id', 10);
+      // formData.append('post', {
+      //   uri: singleFile.uri,
+      //   type: singleFile.type,
+      //   name: singleFile.name
+      // })
+
+      axios({
+        url: url,
+        method: 'POST',
+        data: formData,
+        headers: {
+          // Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
         }
-      );
-      let responseJson = await res.json();
-      if (responseJson.status == 1) {
+      }).then(function (response) {
+        console.log("response :", response);
         alert('Upload Successful');
-      }
-    } else {
+      }).catch(function (error) {
+        console.log("error from image :", error);
+        alert('Upload Failed');
+      })
+    }
+    else {
       // If no file selected the show alert
       alert('Please Select File first');
     }
@@ -55,22 +72,13 @@ const PostImage = ({ navigation }) => {
     // Opening Document Picker to select one file
     try {
       const res = await DocumentPicker.pick({
-        // Provide which type of file you want user to pick
-        type: [DocumentPicker.types.images],
-        // There can me more options as well
-        // DocumentPicker.types.allFiles
-        // DocumentPicker.types.images
-        // DocumentPicker.types.plainText
-        // DocumentPicker.types.audio
-        // DocumentPicker.types.pdf
+        type: [DocumentPicker.types.images]
       });
-      // Printing the log realted to the file
       console.log('res : ' + JSON.stringify(res));
-      // Setting the state to show single file attributes
-      setSingleFile(res);
+      // Printing the log realted to the file
+      setSingleFile(res); // Setting the state to show single file attributes
     } catch (err) {
-      setSingleFile(null);
-      // Handling any exception (If any)
+      setSingleFile(null); // Handling any exception (If any)
       if (DocumentPicker.isCancel(err)) {
         // If user canceled the document selection
         alert('Canceled');
@@ -83,17 +91,17 @@ const PostImage = ({ navigation }) => {
   }
 
   const _onSendPressed = () => {
-    const emailError = emailValidator(email.value);
+    const postTextError = postTextValidator(postText.value);
+    const categoryError = categoryValidator(category.value);
 
-    if (emailError) {
+    alert('dhd')
+    if (categoryError) {
       setEmail({ ...email, error: emailError });
       return;
     }
 
     navigation.navigate('LoginScreen');
   };
-
-  const [selectedValue, setSelectedValue] = useState("java");
 
   return (
     <Background>
@@ -112,10 +120,9 @@ const PostImage = ({ navigation }) => {
         }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
-        {/* <Picker.Item label="Select Category" value="" enabled={false} /> */}
-        <Picker.Item label="Jokes" value="java" />
+        {Lists}
       </Picker>
-      {/* {console.log(selectedValue)} */}
+
       <Text style={styles.label}>
         Image
       </Text>
@@ -137,12 +144,15 @@ const PostImage = ({ navigation }) => {
       <Button icon={require('../assets/icons/image.png')} onPress={selectFile} style={styles.button}>
         Pick Image
       </Button>
-      {/* <TouchableOpacity
+
+      <TouchableOpacity
         style={styles.buttonStyle}
         activeOpacity={0.5}
         onPress={uploadImage}>
         <Text style={styles.buttonTextStyle}>Upload File</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
+
+
       <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
         Submit
       </Button>

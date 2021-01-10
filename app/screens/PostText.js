@@ -11,6 +11,7 @@ import { theme } from '../config/theme';
 import { categoryValidator, postTextValidator } from '../config/validator';
 
 const url = 'https://machmach.epictechworld.in/api/post-text';
+const api_key = '3vR7oNeKydE93866i36lv3CuuelELH8hmmLKyQ';
 
 const PostText = ({ navigation }) => {
   const [postText, setPostText] = useState({ value: '', error: '' });
@@ -24,12 +25,9 @@ const PostText = ({ navigation }) => {
       .then(json => setState(json.data))
   }, [])
 
-  console.log("Categories List", state)
-
   let Lists = state.map((myValue, myIndex) => {
     return (
       <Picker.Item label={myValue.category_name} value={myValue.category_id} key={myValue.category_id} />
-      // alert(myValue.category_name - myValue.category_id)
     )
   });
 
@@ -40,7 +38,7 @@ const PostText = ({ navigation }) => {
     if (postTextError) {
       setPostText({ ...postText, error: postTextError });
       // setCategory({ ...category, error: categoryError });
-      console.log('khasd')
+      // console.log('khasd')
       return;
     }
     axios({

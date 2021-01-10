@@ -13,7 +13,8 @@ export class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: true
+      visible: true,
+      profileImageURL: 'https://pbs.twimg.com/profile_images/428316729220276224/EdBZ2Kgp.jpeg'
     };
   }
 
@@ -26,30 +27,32 @@ export class Profile extends Component {
         </View>
 
         <View style={styles.imageWrapper}>
-          <View style={styles.profileImage}>
-            <Image source={require("../assets/images/profile-pic.jpg")} style={styles.image}></Image>
+          <View>
+            <View style={styles.dm}>
+              <FeatherIcon name="edit" size={16} color="#fff"></FeatherIcon>
+            </View>
+            <Image source={{ uri: this.state.profileImageURL }} style={styles.profileImage}></Image>
           </View>
 
           <View style={styles.infoContainer}>
             <Text style={[styles.text, { fontWeight: "200", fontSize: 24, marginBottom: 10 }]}>Neha Sharma</Text>
-            {/* <Button mode="contained" icon={require('"../icons/user-plus.svg"')}> */}
             <Button mode="contained" color={Colors.ThemeColors.Primary}>
-              {this.state.visible ? 'Unfollow' : 'Follow'}
+              {this.state.visible ? 'Edit Profile' : 'Follow'}
             </Button>
           </View>
         </View>
 
         <View style={styles.statsContainer}>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>483</Text>
+            <Text style={[styles.text, { fontSize: 20 }]}>483</Text>
             <Text style={[styles.text, styles.subText]}>Likes</Text>
           </View>
           <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-            <Text style={[styles.text, { fontSize: 24 }]}>444</Text>
+            <Text style={[styles.text, { fontSize: 20 }]}>444</Text>
             <Text style={[styles.text, styles.subText]}>Followers</Text>
           </View>
           <View style={styles.statsBox}>
-            <Text style={[styles.text, { fontSize: 24 }]}>302</Text>
+            <Text style={[styles.text, { fontSize: 20 }]}>302</Text>
             <Text style={[styles.text, styles.subText]}>Following</Text>
           </View>
         </View>
@@ -86,11 +89,11 @@ const styles = StyleSheet.create({
     fontFamily: "HelveticaNeue",
     color: "#52575D"
   },
-  image: {
-    flex: 1,
-    height: undefined,
-    width: undefined
-  },
+  // image: {
+  //   flex: 1,
+  //   height: undefined,
+  //   width: undefined
+  // },
   titleBar: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -104,16 +107,16 @@ const styles = StyleSheet.create({
     fontWeight: "500"
   },
   profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    overflow: "hidden"
+    width: 110,
+    height: 110,
+    padding: 1,
+    borderRadius: 100,
+    // overflow: "hidden"
   },
   imageWrapper: {
     display: 'flex',
     margin: 20,
-    flexDirection: 'row'
-    // marginTop: 32,
+    flexDirection: 'row',
     // width: 250,
     // height: 250,
     // shadowColor: "#5D3F6A",
@@ -121,22 +124,25 @@ const styles = StyleSheet.create({
     // shadowRadius: 8,
     // shadowOpacity: 0.3
   },
-  // dm: {
-  //   backgroundColor: "#41444B",
-  //   position: "absolute",
-  //   top: 20,
-  //   width: 40,
-  //   height: 40,
-  //   borderRadius: 20,
-  //   alignItems: "center",
-  //   justifyContent: "center"
-  // },
+  dm: {
+    backgroundColor: "#41444B",
+    position: "absolute",
+    bottom: 28,
+    right: -10,
+    padding: 0,
+    height: 32,
+    width: 32,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2
+  },
   // active: {
   //   backgroundColor: "#34FFB9",
   //   position: "absolute",
   //   bottom: 28,
-  //   left: 10,
-  //   padding: 4,
+  //   right: 1,
+  //   padding: 0,
   //   height: 20,
   //   width: 20,
   //   borderRadius: 10
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: "row",
     alignSelf: "center",
-    marginTop: 10
+    marginTop: 0
   },
   statsBox: {
     alignItems: "center",
