@@ -7,6 +7,7 @@ import Avatar from '../components/Avatar';
 import ReadMore from 'react-native-read-more-text';
 import { connect } from 'react-redux'
 import { setProfileData } from '../../store/actions'
+import Snackbar from 'react-native-snackbar';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -17,7 +18,9 @@ export class Home extends Component {
     this.state = {
       postData: [],
       refreshing: false,
-      share: 'key.post'
+      // share: 'key.post',
+      defaultLikeBtnColor: '#bbb',
+      likecBtnColor: '#FF0000'
     };
   }
   componentDidMount() {
@@ -28,9 +31,9 @@ export class Home extends Component {
     this.setState({ postData: response.data.data });
     console.log(response.data.data);
   }
-  // _handleTextReady = () => {
-  //   console.log('ready!');
-  // }
+  _handleTextReady = () => {
+    console.log('ready!');
+  }
   _refreshListView() {
     //Start Rendering Spinner
     this.setState({ refreshing: true }),
@@ -60,7 +63,23 @@ export class Home extends Component {
       alert(error.message);
     }
   };
-
+  downloadImage = () => {
+    Snackbar.show({
+      text: 'Something went wrong!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor: '#FF0000'
+    });
+  }
+  copyText = () => {
+    Snackbar.show({
+      text: 'Text Copied to Clipboard!',
+      duration: Snackbar.LENGTH_LONG,
+      backgroundColor: '#5cb85c'
+    });
+  }
+  likePost = () => {
+    this.setState({ defaultLikeBtnColor: this.state.likecBtnColor });
+  }
   render() {
     let allPosts = this.state.postData;
     const { profile } = this.props;
@@ -117,19 +136,19 @@ export class Home extends Component {
                   <Footer>
                     <Separator />
                     <FooterMenu>
-                      <Button>
-                        <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10 }} />
+                      <Button onPress={this.likePost}>
+                        <FeatherIcon name="heart" size={18} attrs={{ fill: 'tomato' }} style={{ marginRight: 10, color: this.state.defaultLikeBtnColor }} />
                         <Text>{key.total_like} Likes</Text>
                       </Button>
                       {
                         key.type === "Image"
                           ?
-                          <Button>
+                          <Button onPress={this.downloadImage}>
                             <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                             <Text>{key.total_download} </Text>
                           </Button>
                           :
-                          <Button>
+                          <Button onPress={this.copyText}>
                             <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                             <Text>Copy</Text>
                           </Button>

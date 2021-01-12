@@ -41,8 +41,8 @@ const PostImage = ({ navigation }) => {
       formData.append('user_id', 3);
       formData.append('category_id', 10);
       // formData.append('post', {
-      //   uri: singleFile.uri,
-      //   type: singleFile.type,
+      //   uri: singleFile,
+      //   type: 'image/jpg',
       //   name: singleFile.name
       // })
 
@@ -59,7 +59,7 @@ const PostImage = ({ navigation }) => {
         alert('Upload Successful');
       }).catch(function (error) {
         console.log("error from image :", error);
-        alert('Upload Failed');
+        // alert('Upload Failed');
       })
     }
     else {
@@ -74,6 +74,7 @@ const PostImage = ({ navigation }) => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images]
       });
+      // console.log('res : ' + res);
       console.log('res : ' + JSON.stringify(res));
       // Printing the log realted to the file
       setSingleFile(res); // Setting the state to show single file attributes
@@ -130,12 +131,12 @@ const PostImage = ({ navigation }) => {
       {/*Showing the data of selected Single file*/}
       {singleFile != null ? (
         <Text style={styles.textStyle}>
-          File Name: {singleFile.name ? singleFile.name : ''}
+          {/* File Name: {singleFile.name ? singleFile.name : ''}
           {'\n'}
           Type: {singleFile.type ? singleFile.type : ''}
           {'\n'}
           File Size: {singleFile.size ? singleFile.size : ''}
-          {'\n'}
+          {'\n'} */}
           URI: {singleFile.uri ? singleFile.uri : ''}
           {'\n'}
         </Text>
