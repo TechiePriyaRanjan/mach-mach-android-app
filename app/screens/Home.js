@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Share, SafeAreaView, ScrollView, StyleSheet, View, Image, TouchableOpacity, Dimensions, RefreshControl } from "react-native";
+import { Share, PermissionsAndroid, SafeAreaView, ScrollView, StyleSheet, View, Image, TouchableOpacity, Dimensions, RefreshControl } from "react-native";
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import styled from 'styled-components/native';
@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { setProfileData } from '../../store/actions'
 import Snackbar from 'react-native-snackbar';
 import Clipboard from '@react-native-community/clipboard';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -64,14 +65,109 @@ export class Home extends Component {
       alert(error.message);
     }
   };
-  downloadImage = () => {
-    Snackbar.show({
-      text: 'Something went wrong!',
-      duration: Snackbar.LENGTH_LONG,
-      backgroundColor: '#FF0000'
-    });
-  }
-  copyText = async (value) => {
+
+  // _downloadImage = async (value) => {
+  //   try {
+  //     const result = await Share.share({
+  //       message:
+  //         value.post,
+  //     });
+
+  //     if (result.action === Share.sharedAction) {
+  //       if (result.activityType) {
+  //         // shared with activity type of result.activityType
+  //       } else {
+  //         // shared
+  //       }
+  //     } else if (result.action === Share.dismissedAction) {
+  //       // dismissed
+  //     }
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // }
+
+  checkPermission = async (value) => {
+
+    // Function to check the platform
+    // If iOS then start downloading
+    // If Android then ask for permission
+
+    if (Platform.OS === 'ios') {
+      this.downloadImage(value);
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission Required',
+            message:
+              'App needs access to your storage to download Photos',
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          // Once user grant the permission start downloading
+          console.log('Storage Permission Granted.');
+          this.downloadImage(value);
+        } else {
+          // If permission denied then show alert
+          alert('Storage Permission Not Granted');
+        }
+      } catch (err) {
+        // To handle permission related exception
+        console.warn(err);
+      }
+    }
+  };
+
+  downloadImage = (value) => {
+    // Main function to download the image
+
+    // To add the time suffix in filename
+    let date = new Date();
+    // Image URL which we want to download
+    let image_URL = value.post;
+    // Getting the extention of the file
+    let ext = this.getExtention(image_URL);
+    ext = '.' + ext[0];
+    // Get config and fs from RNFetchBlob
+    // config: To pass the downloading related options
+    // fs: Directory path where we want our image to download
+    const { config, fs } = RNFetchBlob;
+    let PictureDir = fs.dirs.PictureDir;
+    let options = {
+      fileCache: true,
+      addAndroidDownloads: {
+        // Related to the Android only
+        useDownloadManager: true,
+        notification: true,
+        path:
+          PictureDir +
+          '/image_' +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          ext,
+        description: 'Image',
+      },
+    };
+    config(options)
+      .fetch('GET', image_URL)
+      .then(res => {
+        // Showing alert after successful downloading
+        console.log('res -> ', JSON.stringify(res));
+        // alert('Image Downloaded Successfully.');
+        Snackbar.show({
+          text: 'Image Downloaded Successfully!',
+          duration: Snackbar.LENGTH_LONG,
+          backgroundColor: '#5cb85c'
+        });
+      });
+  };
+  getExtention = filename => {
+    // To get the file extension
+    return /[.]/.exec(filename) ?
+      /[^.]+$/.exec(filename) : undefined;
+  };
+  _copyText = async (value) => {
     Clipboard.setString(value.post)
     Snackbar.show({
       text: 'Text Copied to Clipboard!',
@@ -145,12 +241,12 @@ export class Home extends Component {
                       {
                         key.type === "Image"
                           ?
-                          <Button onPress={this.downloadImage}>
+                          <Button onPress={() => this.checkPermission(key)}>
                             <FeatherIcon name="download" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                             <Text>{key.total_download} </Text>
                           </Button>
                           :
-                          <Button onPress={() => this.copyText(key)}>
+                          <Button onPress={() => this._copyText(key)}>
                             <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                             <Text>Copy</Text>
                           </Button>
