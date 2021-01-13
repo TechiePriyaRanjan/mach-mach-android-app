@@ -8,6 +8,7 @@ import ReadMore from 'react-native-read-more-text';
 import { connect } from 'react-redux'
 import { setProfileData } from '../../store/actions'
 import Snackbar from 'react-native-snackbar';
+import Clipboard from '@react-native-community/clipboard';
 
 const dimensions = Dimensions.get('window');
 const imageHeight = Math.round(dimensions.width * 9 / 16);
@@ -70,7 +71,8 @@ export class Home extends Component {
       backgroundColor: '#FF0000'
     });
   }
-  copyText = () => {
+  copyText = async (value) => {
+    Clipboard.setString(value.post)
     Snackbar.show({
       text: 'Text Copied to Clipboard!',
       duration: Snackbar.LENGTH_LONG,
@@ -148,7 +150,7 @@ export class Home extends Component {
                             <Text>{key.total_download} </Text>
                           </Button>
                           :
-                          <Button onPress={this.copyText}>
+                          <Button onPress={() => this.copyText(key)}>
                             <FeatherIcon name="copy" size={18} color="#a1a1a1" style={{ marginRight: 10 }} />
                             <Text>Copy</Text>
                           </Button>
